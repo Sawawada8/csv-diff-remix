@@ -8,34 +8,23 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const handle = (e) => {
+    console.log({e: e.target.files})
+  }
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+      <h1 className="text-xl bg-green-300">Welcome to Remix</h1>
+      <div className="my-10">
+      <div className="flex justify-around">
+        <div>
+          <input type="file" name="csv" onChange={handle} />
+        </div>
+        <div>
+          <input type="file" name="csv2" onChange={handle} />
+        </div>
+      </div>
+      </div>
     </div>
   );
 }
