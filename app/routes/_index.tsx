@@ -1,12 +1,9 @@
 import {useState} from 'react';
 import type { MetaFunction } from "@remix-run/node";
 
-import { parseCsv, header } from '~/utils/csv';
+import { parseCsv, header, comparing } from '~/utils/csv';
+import { Mappling } from '~/types';
 
-type Mappling = {
-  first: string;
-  second: string;
-}
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,10 +15,11 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [type, setType] = useState<',' | '\t'>(',')
   const [head, setHead] = useState([])
-  const [body, setBody] = useState(null)
+  const [body, setBody] = useState([])
   const [head2, setHead2] = useState([])
-  const [body2, setBody2] = useState(null)
+  const [body2, setBody2] = useState([])
   const [mappling, setMappling] = useState<Mappling[]>([])
+  const [f, setF] = useState([])
 
   const handleChangeFile = (num) => {
     return async (e) => {
@@ -29,8 +27,10 @@ export default function Index() {
       const csvArray = parseCsv(data, type)
       if (num === 1) {
         setHead([ ...csvArray[0] ])
+        setBody([...csvArray])
       } else {
         setHead2([ ...csvArray[0] ])
+        setBody2([...csvArray])
       }
     }
   }
@@ -54,10 +54,12 @@ export default function Index() {
     }
   }
 
-  const compare = () => {
-
+  const compare = (_e) => {
+    const res = comparing(mappling, body,body2)
+    setF([...res])
   }
 
+  console.log({body, body2})
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1 className="text-xl bg-green-300">Welcome to Remix</h1>
@@ -128,7 +130,8 @@ export default function Index() {
         <div>
           <h2>## compare</h2>
           <div className='flex justify-center'>
-            <button className='bg-green-400 p-2'>Compere</button>
+            <button className='bg-green-400 p-2' onClick={compare}>Compere</button>
+            {JSON.stringify(f)}
           </div>
         </div>
       </div>
